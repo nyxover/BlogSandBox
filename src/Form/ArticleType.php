@@ -42,6 +42,7 @@ class ArticleType extends AbstractType
             ])
             ->add('imageFile', FileType::class, [
                 'label'=> false,
+                'required'=>false,
                 'attr'=>[
                     //'placeholder'=> 'Article title ...',
                     'class'=>"flex-1" 

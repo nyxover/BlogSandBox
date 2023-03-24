@@ -30,10 +30,17 @@ header h2{
 }
 .container{
     width: 90%;
-    max-width: 1400px;
+    max-width: 1500px;
     margin: 50px auto;
-    min-height: 60vh;
+    position: relative;
+    z-index: 999;
+    overflow: hidden;
 }
+ul{
+    list-style: none;
+    padding: 0;
+}
+
 .title{
     text-align: center;
     text-transform: uppercase;

@@ -1,42 +1,67 @@
 {% extends 'base.html.twig' %}
 
-{% block title %} {{ article.title }} {% endblock %}
+{% block title %}
+	{{ article.title }}
+{% endblock %}
 
 {% block body %}
+	<div class="single-article-container flex gap-10">
+		<div class="single-article">
+			<div class="article-image" style="background-image: url({{ article.imageUrl }})"></div>
+			<div class="article-details flex">
+				<div class="article-author-details">
+					<div class="article-author-picture">
+						{%if article.author.profile.picture is defined %}
+							<img src={{article.author.profile.picture}} alt="Image de profile de {{article.author.fullname}}">
+							{%else%}
+							<img src="/_assets/images/avatar.webp" alt="image de profile de {{article.author.fullname}}">
+							{%endif%}
+						</div>
+					</div>
+					<div class="article-content-details">
+						<h2 class="article-title">
+							{{ article.title }}
+						</h2>
+						<div class="article-createdAt">
+							{{ article.fromNow }}
+						</div>
+						<div class="article-categories flex wrap">
 
-    <div class="single-article">
-        <div class="article-image"
-        style="background-image: url({{ article.imageUrl }})"
-        >
-           
-        </div>
-        <div class="article-details flex">
-            <div class="article-author-details">
-                <div class="article-author-picture">
-                    {%if article.author.profile.picture is defined %}
-                    <img src={{article.author.profile.picture}} alt="Image de profile de {{article.author.fullname}}">
-                    {%else%}
-                     <img src="/_assets/images/avatar.webp"  alt="image de profile de {{article.author.fullname}}">
-                     {%endif%}
-                </div>
-            </div>
-            <div class="article-content-details">
-                <h2 class="article-title"> {{ article.title }} </h2>
-                <div class="article-createdAt"> {{ article.fromNow }} </div>
-               <div class="article-categories flex wrap">
-               
-                {% for category in article.categories %}
-                <a href="/category/{{category.slug}}" class="article-category-item badge"> {{ category.name }} ({{category.articles | length}} article(s) publié(s)) </a>
-                {% endfor %}
-               
-               </div>
+							{% for category in article.categories %}
+								<a href="/category/{{category.slug}}" class="article-category-item badge">
+									{{ category.name }}
+									({{category.articles | length}}
+									article(s) publié(s))
+								</a>
+							{% endfor %}
 
-            </div>
-        </div>
-        <div class="content">
-            {{ article.content | raw }}
-        </div>
-       
-    </div>
+						</div>
 
-{% endblock %}
+					</div>
+				</div>
+				<div class="content animate_backInUp">
+					{{ article.content | raw }}
+				</div>
+
+				{% if app.user is same as(article.author) %}
+					<div class="action animate_backInUp">
+						<a href="{{ path('app_article_edit', {'id': article.id}) }}" class="btn">Edit</a>
+					</div>
+				{% endif %}
+
+			</div>
+			<aside class="categories">
+            <h2>Categories</h2>
+				<ul>
+					{% for category in app.session.get("categories") %}
+
+						<li class="">
+							<a href="/category/{{category.slug}}">{{category.name}} ({{category.articles|length}} articles)</a></li>
+					{% endfor %}
+
+				</ul>
+
+			</aside>
+		</div>
+
+	{% endblock %}

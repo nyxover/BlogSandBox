@@ -1,0 +1,30 @@
+
+aside.categories{
+    min-width: 200px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 1px 2px 13px #ccc;
+}
+
+aside.categories ul{
+    padding: 5px;
+}
+
+aside.categories h2{
+    margin: 10px auto;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+
+aside.categories ul li a{
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+}
+
+aside.categories ul li a:hover {
+    background-color: var(--main-color);
+    color: white;
+}

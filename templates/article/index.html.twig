@@ -3,14 +3,19 @@
 {% block title %}Article index{% endblock %}
 
 {% block body %}
-    <h1>Article index</h1>
+    <h2 class="title">Mes Articles</h2>
 
-    <table class="table">
+    <div class="flex mb-10">
+        <a class="btn" href="{{ path('app_article_new') }}">Create new</a>
+
+    </div>
+    <div class="table-container">
+        <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
                 <th>Title</th>
-                <th>Slug</th>
+                {#<th>Slug</th> #}
                 <th>Content</th>
                 <th>ImageUrl</th>
                 <th>CreatedAt</th>
@@ -23,14 +28,26 @@
             <tr>
                 <td>{{ article.id }}</td>
                 <td>{{ article.title }}</td>
-                <td>{{ article.slug }}</td>
-                <td>{{ article.content }}</td>
-                <td>{{ article.imageUrl }}</td>
-                <td>{{ article.createdAt ? article.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                {# <td>{{ article.slug }}</td> #}
+                <td class="td-content">
+                <div class="article-content">
+                    {{ article.content | raw }}
+                </div>
+                </td>
+                <td>
+                
+                {{ article.imageUrl }}
+                <br>
+                <img src="{{ article.imageUrl }}" alt="Image de {{ article.title}}" >
+                </td>
+                <td>{{ article.createdAt ? article.createdAt|date('Y-m-d H:i:s') : '' }} |{{ article.createdAt ? article.fromNow : '' }}</td>
                 <td>{{ article.updatedAt ? article.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('app_article_show', {'id': article.id}) }}">show</a>
-                    <a href="{{ path('app_article_edit', {'id': article.id}) }}">edit</a>
+                    <div class="flex">
+                    <a class="btn" href="{{ path('app_article_show', {'id': article.id}) }}">show</a>
+                    <a class="btn" href="{{ path('app_article_edit', {'id': article.id}) }}">edit</a>
+                    {{ include('article/_delete_form.html.twig') }}
+                    </div>
                 </td>
             </tr>
         {% else %}
@@ -39,7 +56,17 @@
             </tr>
         {% endfor %}
         </tbody>
-    </table>
+        </table>
+    </div>
 
-    <a href="{{ path('app_article_new') }}">Create new</a>
 {% endblock %}
+
+        {% block javascripts %}
+            <script>
+            $('.article-content').readmore({
+                speed: 75,
+                moreLink: '<a href="#" class="btn btn-read">Read more</a>',
+                lessLink: '<a href="#" class="btn btn-read">Read less</a>'
+            });
+            </script>
+        {% endblock %}

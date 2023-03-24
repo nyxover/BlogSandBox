@@ -80,7 +80,7 @@ class ArticleController extends AbstractController
     #[Route('/{id}', name: 'app_article_show', methods: ['GET'])]
     public function show(Article $article): Response
     {
-        return $this->render('article/show.html.twig', [
+        return $this->render('blog/single.html.twig', [
             'article' => $article,
         ]);
     }
@@ -107,10 +107,7 @@ class ArticleController extends AbstractController
 
 
 
-
-            //$articleRepository->save($article, true);
-
-            return $this->redirectToRoute('app_article_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_single_article', ["slug"=>$article->getSlug()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('article/edit.html.twig', [
