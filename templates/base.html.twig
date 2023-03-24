@@ -7,13 +7,52 @@
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
+            <link rel="stylesheet" href="/_assets/css/main.css">
         {% endblock %}
+
+    </head>
+    <body>
+    <header>
+    <a href="/">
+        <h2>Blog SandBox</h2>
+    </a>
+    <nav>
+        <ul class="nav-bar flex aic">
+            <li class="nav-item"><a href="">About</a></li>
+            <li class="nav-item down"><a href="#">Categories</a>
+                <ul class="nav-bar">
+                {% for category in app.session.get("categories") %}
+                    
+                    <li class="nav-item"><a href="/category/{{category.slug}}">{{category.name}} </a>({{category.articles|length}} articles)</li>
+                {% endfor %}
+                    {#<li class="nav-item"><a href="">Category 2</a></li>
+                    <li class="nav-item"><a href="">Category 3</a></li>#}
+
+                </ul>
+            </li>
+            <li class="nav-item"><a href="/contact">Contact</a></li>
+            {% if app.user %}
+                            <li class="nav-item"><a href="/account">Account</a></li>
+                            <li class="nav-item"><a href="/logout">Logout</a></li>
+            {% else %}
+            <li class="nav-item"><a href="/login">Login</a></li>
+            <li class="nav-item"><a href="/register">Register</a></li>
+            {% endif %}
+
+
+        </ul>
+    </nav>
+    </header>
+     {% block slider %}{% endblock %}
+    <div class="container">
+        {% block body %}{% endblock %}
+    </div>
+        <script src="/_assets/js/jquery-3.6.4.min.js"></script>
+        <script src="/_assets/js/select2.min.js"></script>
+                <script src="/_assets/js/ckeditor.js"></script>
 
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
     </body>
 </html>
